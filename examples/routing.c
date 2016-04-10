@@ -70,22 +70,34 @@ void test1(void) {
         // free the objects at the end
         match_entry_free(entry);
     }
-        // entry = match_entry_create("/blog/aaa/asd/123/qwe");
-        // if (entry != NULL) {
-        //     entry->request_method = METHOD_GET;
-        //     matched_route = r3_tree_match_route(n, entry);
-        //     if (matched_route != NULL) {
-        //         // printf("Routed data is: %d\n", *(int*)matched_route->data); // get the data from matched route
-        //         for (int i = 0; i < entry->vars->len; i++) {
-        //             // entry->vars->slugs[i];
-        //             // entry->vars->tokens[i];
-        //             printf("Slug name is: %s\n",entry->vars->slugs[i]);
-        //             printf("Slug value is: %s\n",entry->vars->tokens[i]);
-        //         }
-        //     }
-        // }
-        // // free the objects at the end
-        // match_entry_free(entry);
+        entry = match_entry_create("/blog/432/asf/678");
+        entry->request_method = METHOD_GET;
+        matched_route = r3_tree_match_route(n, entry);
+        if (matched_route) {
+            printf("Routed data is: %d\n", *(int*)matched_route->data); // get the data from matched route
+            if (entry->vars.tokens.size == entry->vars.slugs.size) {
+                for (i = 0; i < entry->vars.tokens.size; i++) {
+                    // entry->vars.slugs.entries[i];
+                    // entry->vars.tokens.entries[i];
+                    printf("Slug name is: %*.*s\n",entry->vars.slugs.entries[i].len,
+                        entry->vars.slugs.entries[i].len, entry->vars.slugs.entries[i].base);
+                    printf("Slug value is: %*.*s\n",entry->vars.tokens.entries[i].len,
+                        entry->vars.tokens.entries[i].len, entry->vars.tokens.entries[i].base);
+                }
+            } else {
+                // printf("Slugs and tokens sizes are not equal\n");
+                // for (i = 0; i < entry->vars.slugs.size; i++) {
+                //     printf("Slug name is: %*.*s\n",entry->vars.slugs.entries[i].len,
+                //         entry->vars.slugs.entries[i].len, entry->vars.slugs.entries[i].base);
+                // }
+                // for (i = 0; i < entry->vars.tokens.size; i++) {
+                //     printf("Slug value is: %*.*s\n",entry->vars.tokens.entries[i].len,
+                //         entry->vars.tokens.entries[i].len, entry->vars.tokens.entries[i].base);
+                // }
+            }
+        }
+        // free the objects at the end
+        match_entry_free(entry);
     
     r3_tree_free(n);
 }

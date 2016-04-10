@@ -1,0 +1,4 @@
+#!/bin/sh
+
+gcc -o ./.libs/routing routing.c ../.libs/libr3.a -lpcre
+./.libs/routing
